@@ -2,12 +2,14 @@ const formulario = document.getElementById('formulario-rutina');
 const listaRutinas = document.getElementById('lista-rutinas');
 const filtroDia = document.getElementById('filtro-dia');
 
-// Elementos de estadísticas
+// Elementos de estadísticas actualizados para los 3 segmentos
 const statTotal = document.getElementById('stat-total');
-const barraTorsoPierna = document.getElementById('barra-torso-pierna');
+const barraTorso = document.getElementById('barra-torso');
+const barraPierna = document.getElementById('barra-pierna');
+const barraBrazos = document.getElementById('barra-brazos');
 const txtTorso = document.getElementById('txt-torso');
 const txtPierna = document.getElementById('txt-pierna');
-const listaRecords = document.getElementById('lista-records');
+const txtBrazos = document.getElementById('txt-brazos');
 
 let rutinas = JSON.parse(localStorage.getItem('misRutinas')) || [];
 const ordenDias = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"];
@@ -42,7 +44,6 @@ function mostrarRutinas() {
         listaRutinas.appendChild(nuevoRegistro);
     });
 
-    // CADA VEZ QUE SE MUESTRAN LAS RUTINAS, RECALCULAMOS LAS ESTADÍSTICAS
     actualizarEstadisticas();
 }
 
@@ -51,28 +52,39 @@ function actualizarEstadisticas() {
     statTotal.textContent = total;
 
     if (total === 0) {
-        barraTorsoPierna.style.width = '50%';
+        barraTorso.style.width = '0%';
+        barraPierna.style.width = '0%';
+        barraBrazos.style.width = '0%';
         txtTorso.textContent = 'T: 0%';
         txtPierna.textContent = 'P: 0%';
+        txtBrazos.textContent = 'B: 0%';
         listaRecords.innerHTML = '<li>No hay registros suficientes</li>';
         return;
     }
 
-    // 1. Calcular distribución Torso / Pierna
+    // 1. Filtrar y contar cada categoría
     const totalTorso = rutinas.filter(r => r.tipo === 'Torso').length;
-    const porcentajeTorso = Math.round((totalTorso / total) * 100);
-    const porcentajePierna = 100 - porcentajeTorso;
+    const totalPierna = rutinas.filter(r => r.tipo === 'Pierna').length;
+    const totalBrazos = rutinas.filter(r => r.tipo === 'Brazos').length;
 
-    // Modificamos el CSS dinámicamente desde JS
-    barraTorsoPierna.style.width = `${porcentajeTorso}%`;
+    // Calcular porcentajes individuales matemáticos
+    const porcentajeTorso = Math.round((totalTorso / total) * 100);
+    const porcentajePierna = Math.round((totalPierna / total) * 100);
+    const porcentajeBrazos = Math.round((totalBrazos / total) * 100);
+
+    // Asignar los anchos de forma independiente a cada segmento de la barra flex
+    barraTorso.style.width = `${porcentajeTorso}%`;
+    barraPierna.style.width = `${porcentajePierna}%`;
+    barraBrazos.style.width = `${porcentajeBrazos}%`;
+
+    // Actualizar leyendas de texto
     txtTorso.textContent = `Torso: ${porcentajeTorso}%`;
     txtPierna.textContent = `Pierna: ${porcentajePierna}%`;
+    txtBrazos.textContent = `Brazos: ${porcentajeBrazos}%`;
 
-    // 2. Calcular Récords Personales (Peso Máximo por Ejercicio)
+    // 2. Calcular Récords Personales
     const records = {};
-    
     rutinas.forEach(rutina => {
-        // Convertimos el nombre a minúsculas para evitar duplicados por errores de dedo (ej: "Prensa" vs "prensa")
         const nombreEj = rutina.ejercicio.trim().toLowerCase();
         const pesoNum = parseFloat(rutina.peso);
 
@@ -81,11 +93,9 @@ function actualizarEstadisticas() {
         }
     });
 
-    // Limpiar lista de récords e imprimirlos
     listaRecords.innerHTML = '';
     for (const ejercicio in records) {
         const liRecord = document.createElement('li');
-        // Capitalizamos la primera letra para que se vea estético
         const nombreFormateado = ejercicio.charAt(0).toUpperCase() + ejercicio.slice(1);
         liRecord.textContent = `${nombreFormateado}: ${records[ejercicio]} kg`;
         listaRecords.appendChild(liRecord);
@@ -123,16 +133,13 @@ formulario.addEventListener('submit', function(evento) {
 });
 
 filtroDia.addEventListener('change', mostrarRutinas);
-mostrarRutinas();
-// 6. Registrar el Service Worker para convertirla en PWA
+
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
         navigator.serviceWorker.register('./sw.js')
-            .then(registro => {
-                console.log('Service Worker registrado con éxito:', registro);
-            })
-            .catch(error => {
-                console.log('Error al registrar el Service Worker:', error);
-            });
+            .then(registro => console.log('Service Worker registrado:', registro))
+            .catch(error => console.log('Error en Service Worker:', error));
     });
 }
+
+mostrarRutinas();
