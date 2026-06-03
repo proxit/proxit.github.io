@@ -4,7 +4,9 @@
     --fondo-tarjeta: #1e1e1e;
     --texto-principal: #ffffff;
     --texto-secundario: #b3b3b3;
-    --color-acento: #00d2ff; /* Un azul eléctrico moderno */
+    --color-acento: #00d2ff;       /* Azul - Torso */
+    --color-pierna: #ff4a4a;       /* Rojo - Pierna */
+    --color-brazos: #ffb700;       /* Ámbar - Brazos */
     --color-acento-hover: #00a8cc;
     --borde: #333333;
 }
@@ -56,7 +58,7 @@ h2 {
 form {
     display: flex;
     flex-direction: column;
-    gap: 15px; /* Espacio uniforme entre los elementos */
+    gap: 15px; 
 }
 
 input, select {
@@ -92,7 +94,7 @@ button:hover {
 }
 
 button:active {
-    transform: scale(0.98); /* Pequeño efecto de "hundimiento" al hacer clic */
+    transform: scale(0.98); 
 }
 
 /* 6. Estilos de la Lista de Registros */
@@ -110,19 +112,20 @@ li {
     padding: 15px;
     border-radius: 8px;
     display: flex;
-    justify-content: space-between; /* Separa el texto si luego agregamos un botón de borrar */
+    justify-content: space-between; 
     align-items: center;
     transition: transform 0.2s;
 }
 
 li:hover {
-    transform: translateX(5px); /* Efecto de desplazamiento al pasar el ratón */
+    transform: translateX(5px); 
     border-color: var(--color-acento);
 }
+
 /* 7. Estilo específico para el botón de eliminar */
 .btn-eliminar {
     background-color: transparent;
-    color: #ff4a4a; /* Rojo sutil */
+    color: var(--color-pierna); 
     border: none;
     padding: 5px 10px;
     font-size: 1rem;
@@ -130,17 +133,18 @@ li:hover {
     cursor: pointer;
     border-radius: 4px;
     transition: background-color 0.2s, color 0.2s;
-    width: auto; /* Evita que ocupe todo el ancho */
+    width: auto; 
 }
 
 .btn-eliminar:hover {
-    background-color: rgba(255, 74, 74, 0.1); /* Fondo rojo muy suave */
+    background-color: rgba(255, 74, 74, 0.1); 
     color: #ff1a1a;
 }
 
 .btn-eliminar:active {
     transform: scale(0.9);
 }
+
 /* 8. Estilos para el contenedor del Filtro */
 .filtro-contenedor {
     display: flex;
@@ -164,6 +168,7 @@ li:hover {
     font-size: 0.9rem;
     cursor: pointer;
 }
+
 /* 9. Panel de Estadísticas Visuales */
 .panel-stats {
     display: grid;
@@ -196,22 +201,28 @@ li:hover {
     color: var(--color-acento);
 }
 
-/* Barra de progreso CSS */
+/* Contenedor de la barra de progreso (ahora con Flexbox para los 3 segmentos) */
 .barra-progreso-bg {
-    background-color: #ff4a4a; /* Si la barra no se llena de "Torso", el fondo es rojo de "Pierna" */
+    background-color: #2a2a2a; /* Fondo gris oscuro cuando está vacío */
     height: 12px;
     border-radius: 6px;
     overflow: hidden;
     margin-top: 5px;
     margin-bottom: 5px;
+    display: flex; /* Esto es clave para que los colores se pongan uno al lado del otro */
 }
 
-.barra-progreso-llenado {
-    background-color: var(--color-acento); /* Color azul para Torso */
+/* Estilo general para cada bloque de color de la barra */
+.barra-segmento {
     height: 100%;
-    width: 50%; /* JS cambiará este ancho */
-    transition: width 0.5s ease-in-out; /* Animación suave al cambiar */
+    width: 0%; /* El JavaScript cambiará este ancho (ej. al 33%) */
+    transition: width 0.5s ease-in-out;
 }
+
+/* Asignamos los colores individuales llamando a las variables de arriba */
+#barra-torso { background-color: var(--color-acento); }
+#barra-pierna { background-color: var(--color-pierna); }
+#barra-brazos { background-color: var(--color-brazos); }
 
 .stat-leyenda {
     display: flex;
@@ -237,6 +248,7 @@ li:hover {
     background-color: rgba(255, 255, 255, 0.02);
     border-radius: 0 6px 6px 0;
 }
+
 .lista-records li:hover {
-    transform: none; /* Desactivar desplazamiento en la sublista */
+    transform: none; 
 }
