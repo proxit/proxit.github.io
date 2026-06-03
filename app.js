@@ -124,3 +124,15 @@ formulario.addEventListener('submit', function(evento) {
 
 filtroDia.addEventListener('change', mostrarRutinas);
 mostrarRutinas();
+// 6. Registrar el Service Worker para convertirla en PWA
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js')
+            .then(registro => {
+                console.log('Service Worker registrado con éxito:', registro);
+            })
+            .catch(error => {
+                console.log('Error al registrar el Service Worker:', error);
+            });
+    });
+}
