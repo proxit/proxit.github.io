@@ -10,22 +10,69 @@
     <div class="contenedor">
         <h1>Mi Tracker de Rutinas</h1>
         
-        <!-- Formulario para agregar el progreso -->
         <form id="formulario-rutina">
-            <select id="tipo-rutina" required>
+            <select id="dia-semana" required>
                 <option value="">Selecciona el día...</option>
+                <option value="Lunes">Lunes</option>
+                <option value="Martes">Martes</option>
+                <option value="Miércoles">Miércoles</option>
+                <option value="Jueves">Jueves</option>
+                <option value="Viernes">Viernes</option>
+                <option value="Sábado">Sábado</option>
+                <option value="Domingo">Domingo</option>
+            </select>
+
+            <select id="tipo-rutina" required>
+                <option value="">Selecciona zona muscular...</option>
                 <option value="Torso">Torso</option>
                 <option value="Pierna">Pierna</option>
             </select>
             
-            <input type="text" id="ejercicio" placeholder="Ej: Prensa" required>
+            <input type="text" id="ejercicio" placeholder="Ej: Prensa o Press Banca" required>
             <input type="number" id="peso" placeholder="Peso (kg)" required>
             
             <button type="submit">Guardar Registro</button>
         </form>
 
-        <!-- Aquí se mostrarán los registros guardados -->
-        <h2>Historial de Progreso</h2>
+        <h2>Panel de Rendimiento</h2>
+        <div class="panel-stats">
+            <div class="tarjeta-stat">
+                <span class="stat-titulo">Total Ejercicios</span>
+                <span id="stat-total" class="stat-numero">0</span>
+            </div>
+            <div class="tarjeta-stat">
+                <span class="stat-titulo">Distribución Torso / Pierna</span>
+                <div class="barra-progreso-bg">
+                    <div id="barra-torso-pierna" class="barra-progreso-llenado"></div>
+                </div>
+                <div class="stat-leyenda">
+                    <span id="txt-torso">T: 0%</span>
+                    <span id="txt-pierna">P: 0%</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="tarjeta-stat">
+            <span class="stat-titulo">Récords Personales (Max Peso)</span>
+            <ul id="lista-records" class="lista-records"></ul>
+        </div>
+
+        <h2>Historial de Rutinas</h2>
+        
+        <div class="filtro-contenedor">
+            <label for="filtro-dia">Ver rutina del día:</label>
+            <select id="filtro-dia">
+                <option value="Todos">Mostrar todos los días</option>
+                <option value="Lunes">Lunes</option>
+                <option value="Martes">Martes</option>
+                <option value="Miércoles">Miércoles</option>
+                <option value="Jueves">Jueves</option>
+                <option value="Viernes">Viernes</option>
+                <option value="Sábado">Sábado</option>
+                <option value="Domingo">Domingo</option>
+            </select>
+        </div>
+
         <ul id="lista-rutinas"></ul>
     </div>
 
