@@ -5,8 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tracker de Rutinas</title>
     <link rel="stylesheet" href="style.css">
-    <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#121212">
 </head>
 <body>
     <div class="contenedor">
@@ -28,7 +26,7 @@
                 <option value="">Selecciona zona muscular...</option>
                 <option value="Torso">Torso</option>
                 <option value="Pierna">Pierna</option>
-            </select>
+                <option value="Brazos">Brazos</option> </select>
             
             <input type="text" id="ejercicio" placeholder="Ej: Prensa o Press Banca" required>
             <input type="number" id="peso" placeholder="Peso (kg)" required>
@@ -43,14 +41,16 @@
                 <span id="stat-total" class="stat-numero">0</span>
             </div>
             <div class="tarjeta-stat">
-                <span class="stat-titulo">Distribución Torso / Pierna</span>
+                <span class="stat-titulo">Distribución Muscular</span>
                 <div class="barra-progreso-bg">
-                    <div id="barra-torso-pierna" class="barra-progreso-llenado"></div>
+                    <div id="barra-torso" class="barra-segmento"></div>
+                    <div id="barra-pierna" class="barra-segmento"></div>
+                    <div id="barra-brazos" class="barra-segmento"></div>
                 </div>
                 <div class="stat-leyenda">
                     <span id="txt-torso">T: 0%</span>
                     <span id="txt-pierna">P: 0%</span>
-                </div>
+                    <span id="txt-brazos">B: 0%</span> </div>
             </div>
         </div>
 
